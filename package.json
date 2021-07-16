@@ -13,6 +13,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "commit": "cz",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -39,6 +40,7 @@
     "@typescript-eslint/eslint-plugin": "^4.0.0",
     "@typescript-eslint/parser": "^4.0.0",
     "babel-eslint": "^10.0.0",
+    "cz-conventional-changelog": "^3.3.0",
     "eslint": "^7.2.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^8.3.0",
@@ -52,5 +54,10 @@
     "eslint-plugin-react-hooks": "^1.7.0",
     "eslint-plugin-testing-library": "^3.9.0",
     "prettier": "^2.3.2"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog"
+    }
   }
 }
