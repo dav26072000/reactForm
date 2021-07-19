@@ -1,0 +1,19 @@
+.button-style-black {
+  width: 8rem;
+  height: 2.5rem;
+  background-color: #4caf50;
+  border: 1px solid #4caf50;
+  border-radius: 0.3rem;
+  outline: none;
+  color: white;
+  margin: 1rem;
+  text-decoration: none;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.button-style-black:disabled {
+  background-color: #e7e7e7;
+  cursor: not-allowed;
+}

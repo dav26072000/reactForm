@@ -1,7 +1,6 @@
 {
     "env": {
         "browser": true,
-        "es2021": true,
         "node": true
     },
     "extends": [
@@ -25,6 +24,10 @@
         "no-useless-constructor":"off",
         "react/button-has-type":"off",
         "operator-linebreak": "off",
+        "no-unused-vars": "off",
+        "class-methods-use-this": "off",
+        "no-param-reassign": "off",
+        "no-unused-expressions": "off",
         // "eslint object-curly-newline": ["error", { "consistent": false }],
         "prettier/prettier": [
           "error",

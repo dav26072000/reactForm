@@ -28,47 +28,10 @@
   color: #61dafb;
 }
 
-.input-style-green {
-  height: 2.5rem;
-  width: 10rem;
-  margin: 1rem;
-  font-size: 1rem;
-  text-align: center;
-  border: 1px solid #4caf50;
-  border-radius: 0.3rem;
-  transition: all 0.3s ease;
-  outline: none;
+.border-green {
+  border: 2px solid #4caf50;
 }
 
-.input-style-green:focus {
-  border: 1px solid #555555;
-}
-
-.button-style-black {
-  width: 8rem;
-  height: 2.5rem;
-  background-color: #4caf50;
-  border: 1px solid #4caf50;
-  border-radius: 0.3rem;
-  outline: none;
-  color: white;
-  margin: 1rem;
-  text-decoration: none;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: all 0.3s ease;
-}
-
-.button-style-black:disabled {
-  background-color: #e7e7e7;
-  cursor: not-allowed;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.border-red {
+  border: 2px solid #f44336;
 }

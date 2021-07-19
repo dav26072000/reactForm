@@ -1,179 +1,113 @@
 import React, { Component } from "react";
 import "./App.css";
-import ButtonComponent from "./Components/ButtonComponent";
-import InputComponent from "./Components/InputComponent";
+import ButtonComponent from "./Components/ButtonComponent/ButtonComponent";
+import InputComponent from "./Components/InputComponent/InputComponent";
 
 export default class App extends Component {
   constructor(props) {
     super(props);
-
-    let count;
-    let storageMin;
-    let storageMax;
-    let storageStep;
-
-    if (localStorage.getItem("counter")) {
-      count = Number(localStorage.getItem("counter"));
-    } else {
-      count = 0;
-    }
-    if (
-      localStorage.getItem("min") &&
-      localStorage.getItem("max") &&
-      localStorage.getItem("step")
-    ) {
-      storageMin = Number(localStorage.getItem("min"));
-      storageMax = Number(localStorage.getItem("max"));
-      storageStep = Number(localStorage.getItem("step"));
-    } else {
-      storageMin = 0;
-      storageMax = 10;
-      storageStep = 1;
-    }
-
     this.state = {
-      counter: count,
-      min: storageMin,
-      max: storageMax,
-      step: storageStep,
-      error: "",
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      notValidated: false,
     };
+
+    this.formSubmit = this.formSubmit.bind(this);
+    this.formValidation = this.formValidation.bind(this);
   }
 
-  handleInc = () => {
-    const { step, max, counter } = this.state;
+  formSubmit(event) {
+    console.log(this.state);
+    event.preventDefault();
+  }
 
-    if (max - counter >= step) {
-      this.setState((prevState) => {
-        localStorage.setItem("counter", prevState.counter + Number(step));
-        return { counter: prevState.counter + Number(step) };
-      });
-    } else {
-      this.setState(() => {
-        localStorage.setItem("counter", max);
-        return { counter: max };
-      });
-    }
-  };
-
-  handleDec = () => {
-    const { step, min, counter } = this.state;
-
-    if (counter - min >= step) {
-      this.setState((prevState) => {
-        localStorage.setItem("counter", prevState.counter - Number(step));
-        return { counter: prevState.counter - Number(step) };
-      });
-    } else {
-      this.setState(() => {
-        localStorage.setItem("counter", min);
-        return { counter: min };
-      });
-    }
-  };
-
-  handleReset = () => {
-    const { min } = this.state;
-
-    this.setState(() => ({
-      counter: Number(min),
-    }));
-    localStorage.setItem("counter", min);
-  };
-
-  handleSetChanges = (e) => {
-    e.preventDefault();
-
-    const getMaxCount = e.target.children.maxCount.value;
-    const getMinCount = e.target.children.minCount.value;
-    const getStep = e.target.children.step.value;
-
-    if (getMaxCount !== "" && getMinCount !== "" && getStep !== "") {
-      if (
-        getMaxCount - getMinCount >= 0 &&
-        getMaxCount - getMinCount > getStep
-      ) {
-        this.setState(() => {
-          localStorage.setItem("min", getMinCount);
-          localStorage.setItem("max", getMaxCount);
-          localStorage.setItem("step", getStep);
-          return {
-            min: getMinCount,
-            max: getMaxCount,
-            counter: Number(getMinCount),
-            step: getStep,
-            error: "",
-          };
-        });
-      } else {
-        this.setState(() => ({
-          error: "Maximum count must be greater than minimum count",
-        }));
+  formValidation(event) {
+    if (event.target.name === "firstName" || event.target.name === "lastName") {
+      event.target.name === "firstName"
+        ? this.setState({ firstName: event.target.value })
+        : this.setState({ lastName: event.target.value });
+      const regName = /^[a-zA-Z]+$/;
+      const name = event.target.value;
+      if (!regName.test(name)) {
+        event.target.classList.remove("border-green");
+        event.target.classList.add("border-red");
+        this.setState({ notValidated: true });
+        return false;
       }
-    } else {
-      this.setState(() => ({
-        error: "One of inputs is empty",
-      }));
+      event.target.classList.remove("border-red");
+      event.target.classList.add("border-green");
+      return true;
     }
-  };
+
+    if (event.target.name === "email") {
+      console.log("bob");
+    }
+    return false;
+  }
+  // handleChange(event) {
+  //   console.log(this.target.value);
+  //   console.log(event.target.value);
+  //   // this.setState({
+  //   //   firstName: event.target.value,
+  //   //   lastName: "",
+  //   //   email: "",
+  //   //   password: "",
+  //   //   confirmPassword: "",
+  //   // });
+  // }
 
   render() {
-    const { counter, min, max, step, error } = this.state;
-    const minimumDisabled = counter <= min;
-    const maximumDisabled = counter >= max;
+    const { firstName, lastName, email, password, confirmPassword } =
+      this.state;
+
     return (
       <div className="App">
-        <div className="App_inc-dec">
-          <ButtonComponent
-            dis={minimumDisabled}
-            buttonName="Decrease"
-            clickEvent={this.handleDec}
-            className="button-style-black"
+        <form onSubmit={this.formSubmit}>
+          <InputComponent
+            value={firstName}
+            onChange={this.formValidation}
+            placeholder="First name"
+            type="text"
+            name="firstName"
+            required
           />
-          <span>{counter}</span>
-          <ButtonComponent
-            dis={maximumDisabled}
-            buttonName="Increase"
-            clickEvent={this.handleInc}
-            className="button-style-black"
+          <InputComponent
+            value={lastName}
+            onChange={this.formValidation}
+            placeholder="Last name"
+            type="text"
+            name="lastName"
+            required
           />
-        </div>
-        <div className="App_reset">
-          <ButtonComponent
-            dis={counter === 0}
-            buttonName="Reset"
-            clickEvent={this.handleReset}
-            className="button-style-black"
+          <InputComponent
+            value={email}
+            onChange={this.formValidation}
+            placeholder="Email address"
+            type="email"
+            name="email"
+            required
           />
-        </div>
-        <div className="App_inputs">
-          <form action="#" onSubmit={this.handleSetChanges}>
-            <InputComponent
-              name="minCount"
-              placeholder={`Min value ${min}`}
-              className="input-style-green"
-            />
-            <InputComponent
-              name="maxCount"
-              placeholder={`Max value ${max}`}
-              className="input-style-green"
-            />
-            <InputComponent
-              name="step"
-              placeholder={`Step value ${step}`}
-              className="input-style-green"
-            />
-
-            <ButtonComponent
-              buttonName="Set changes"
-              type="submit"
-              className="button-style-black"
-            />
-          </form>
-        </div>
-        <div className="App-error">
-          <h3>{error}</h3>
-        </div>
+          <InputComponent
+            value={password}
+            onChange={this.formValidation}
+            placeholder="Password"
+            type="password"
+            name="password"
+            required
+          />
+          <InputComponent
+            value={confirmPassword}
+            onChange={this.formValidation}
+            placeholder="Confirm password"
+            type="password"
+            name="confirmPassword"
+            required
+          />
+          <ButtonComponent type="submit" buttonName="Submit" />
+        </form>
       </div>
     );
   }
